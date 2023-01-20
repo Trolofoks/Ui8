@@ -10,14 +10,14 @@ import com.example.domain.repository.MainRepository
 class MainRepositoryImplementation(private var mainInfoStorage: MainInfoStorage): MainRepository {
     override fun saveSeenOnBoard(seen: UserSeenOnBoard): Boolean {
         val userInfo = mainInfoStorage.get()
-        mainInfoStorage.save(UserInfoModel(seenOnBoard = seen.onBoard, signedIn = userInfo.signedIn))
-        return true
+        return mainInfoStorage
+            .save(UserInfoModel(seenOnBoard = seen.onBoard, signedIn = userInfo.signedIn))
     }
 
     override fun saveSigned(login: UserSigned): Boolean {
         val userInfo = mainInfoStorage.get()
-        mainInfoStorage.save(UserInfoModel(seenOnBoard = userInfo.seenOnBoard, signedIn = login.signed))
-        return true
+        return mainInfoStorage
+            .save(UserInfoModel(seenOnBoard = userInfo.seenOnBoard, signedIn = login.signed))
     }
 
     override fun getMainInfo(): MainUserInfo {

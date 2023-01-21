@@ -8,11 +8,11 @@ import com.example.domain.usecase.GetMainUserInfoUseCase
 class RootViewModel(
     private val getMainUserInfoUseCase: GetMainUserInfoUseCase
 ): ViewModel() {
-    private val resultLiveData = MutableLiveData<Boolean>()
-    val resultLive: LiveData<Boolean> = resultLiveData
+    private val liveData = MutableLiveData<Boolean>()
+    val resultLive: LiveData<Boolean> = liveData
 
     fun get(){
         val userInfo = getMainUserInfoUseCase.execute()
-        resultLiveData.value = userInfo.signed
+        liveData.value = userInfo.signed
     }
 }

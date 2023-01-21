@@ -24,7 +24,7 @@
         tools:layout="@layout/fragment_signed_in" />
     <fragment
         android:id="@+id/signedOutFragment"
-        android:name="com.example.ui8.SignedOutFragment"
+        android:name="com.example.ui8.fragment.signedin.SignedOutFragment"
         android:label="fragment_signed_out"
         tools:layout="@layout/fragment_signed_out" >
         <action
@@ -33,7 +33,7 @@
     </fragment>
     <fragment
         android:id="@+id/onBoardFragment"
-        android:name="com.example.ui8.OnBoardFragment"
+        android:name="com.example.ui8.fragment.onboard.OnBoardFragment"
         android:label="fragment_on_board"
         tools:layout="@layout/fragment_on_board" />
 </navigation>

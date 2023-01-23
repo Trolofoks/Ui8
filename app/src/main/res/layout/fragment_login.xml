@@ -1,14 +1,132 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragment.login.LoginFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/outlinedTextFieldNumber"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:hint="Number"
+        android:textColorHint="@color/text_secondary"
+        app:boxStrokeColor="@color/secondary"
+        app:hintTextColor="@color/text_secondary"
+        app:layout_constraintEnd_toEndOf="@+id/textView6"
+        app:layout_constraintStart_toStartOf="@+id/textView6"
+        app:layout_constraintTop_toBottomOf="@+id/textView6">
 
-</FrameLayout>
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/textImputEditNumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/text_primary"
+            android:textColorHint="@color/text_secondary" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/outlinedTextFieldPassword"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:hint="Password"
+        android:textColorHint="@color/text_secondary"
+        app:boxStrokeColor="@color/secondary"
+        app:hintTextColor="@color/primary"
+        app:layout_constraintEnd_toEndOf="@+id/outlinedTextFieldNumber"
+        app:layout_constraintStart_toStartOf="@+id/outlinedTextFieldNumber"
+        app:layout_constraintTop_toBottomOf="@+id/outlinedTextFieldNumber"
+        app:endIconMode="password_toggle"
+        app:endIconTint="@color/primary"
+        app:endIconCheckable="true">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/textImputEditPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/text_primary"
+            android:textColorHint="@color/text_secondary" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/buttonLogin"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="64dp"
+        android:backgroundTint="@color/primary"
+        android:text="Button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="@+id/buttonLogin"
+        app:layout_constraintStart_toStartOf="@+id/buttonLogin"
+        app:layout_constraintTop_toBottomOf="@+id/buttonLogin">
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Don't have account? " />
+
+        <TextView
+            android:id="@+id/textButtonSingUp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="SingUp"
+            android:textColor="@color/primary" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="128dp"
+        android:layout_marginEnd="16dp"
+        android:text="TextView"
+        android:textColor="@color/text_primary"
+        android:textSize="34sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="TextView"
+        android:textColor="@color/text_secondary"
+        app:layout_constraintEnd_toEndOf="@+id/textView5"
+        app:layout_constraintStart_toStartOf="@+id/textView5"
+        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+
+    <ImageButton
+        android:id="@+id/imageButtonHide"
+        android:layout_width="80dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="4dp"
+        android:background="@null"
+        android:scaleType="fitEnd"
+        android:src="@drawable/ic_eye"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/outlinedTextFieldPassword"
+        app:layout_constraintEnd_toEndOf="@+id/outlinedTextFieldPassword"
+        app:layout_constraintTop_toTopOf="@+id/outlinedTextFieldPassword" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,4 +1,4 @@
-package com.example.ui8.fragment.signedin
+package com.example.ui8.fragment.signedout
 
 import android.content.Context
 import androidx.lifecycle.ViewModel
@@ -19,6 +19,6 @@ class SignedOutViewModelFactory(context: Context): ViewModelProvider.Factory {
     private val getMainUserInfoUseCase by lazy { GetMainUserInfoUseCase(mainRepository) }
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return RootViewModel(getMainUserInfoUseCase) as T
+        return SignedOutViewModel(getMainUserInfoUseCase) as T
     }
 }

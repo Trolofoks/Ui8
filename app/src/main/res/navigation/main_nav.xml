@@ -19,21 +19,42 @@
     </fragment>
     <fragment
         android:id="@+id/signedInFragment"
-        android:name="com.example.ui8.SignedInFragment"
+        android:name="com.example.ui8.fragment.signedin.SignedInFragment"
         android:label="fragment_signed_in"
-        tools:layout="@layout/fragment_signed_in" />
+        tools:layout="@layout/fragment_signed_in" >
+        <action
+            android:id="@+id/action_signedInFragment_to_mainPageFragment"
+            app:destination="@id/mainPageFragment" />
+    </fragment>
     <fragment
         android:id="@+id/signedOutFragment"
-        android:name="com.example.ui8.fragment.signedin.SignedOutFragment"
+        android:name="com.example.ui8.fragment.signedout.SignedOutFragment"
         android:label="fragment_signed_out"
         tools:layout="@layout/fragment_signed_out" >
         <action
             android:id="@+id/action_signedOutFragment_to_onBoardFragment"
             app:destination="@id/onBoardFragment" />
+        <action
+            android:id="@+id/action_signedOutFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
     </fragment>
     <fragment
         android:id="@+id/onBoardFragment"
         android:name="com.example.ui8.fragment.onboard.OnBoardFragment"
         android:label="fragment_on_board"
-        tools:layout="@layout/fragment_on_board" />
+        tools:layout="@layout/fragment_on_board" >
+        <action
+            android:id="@+id/action_onBoardFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/mainPageFragment"
+        android:name="com.example.ui8.fragment.mainpage.MainPageFragment"
+        android:label="fragment_main_page"
+        tools:layout="@layout/fragment_main_page" />
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.ui8.fragment.login.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" />
 </navigation>

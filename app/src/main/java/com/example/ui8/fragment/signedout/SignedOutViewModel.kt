@@ -1,4 +1,4 @@
-package com.example.ui8.fragment.signedin
+package com.example.ui8.fragment.signedout
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

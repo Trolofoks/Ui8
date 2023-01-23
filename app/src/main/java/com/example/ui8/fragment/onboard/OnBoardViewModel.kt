@@ -12,7 +12,14 @@ class OnBoardViewModel(
     private var liveData = MutableLiveData<Boolean>()
     var resultLive: LiveData<Boolean> = liveData
 
-    fun save(seen: Boolean): Boolean {
-        return saveSeenOnBoardUseCase.execute(UserSeenOnBoard(onBoard = seen))
+    private var liveDataPos = MutableLiveData<Int>()
+    var resultLivePos: LiveData<Int> = liveDataPos
+
+    fun save(seen: Boolean) {
+        liveData.value = saveSeenOnBoardUseCase.execute(UserSeenOnBoard(onBoard = seen))
+    }
+
+    fun savePos(pos: Int) {
+        liveDataPos.value = pos
     }
 }

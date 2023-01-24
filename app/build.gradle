@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
 }
 
 android {
@@ -42,6 +43,10 @@ dependencies {
     implementation ("com.tbuonomo:dotsindicator:4.3")
 
     implementation "androidx.viewpager:viewpager:1.1.0-alpha01"
+
+    def room_version = "2.4.3"
+    implementation "androidx.room:room-ktx:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
 
     def nav_version = "2.5.3"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.5.1"

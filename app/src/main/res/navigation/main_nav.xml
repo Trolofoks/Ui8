@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/rootFragment"
-        android:name="com.example.ui8.fragment.root.RootFragment"
+        android:name="com.example.ui8.presentation.fragment.root.RootFragment"
         android:label="fragment_root"
         tools:layout="@layout/fragment_root" >
         <action
@@ -19,7 +19,7 @@
     </fragment>
     <fragment
         android:id="@+id/signedInFragment"
-        android:name="com.example.ui8.fragment.signedin.SignedInFragment"
+        android:name="com.example.ui8.presentation.fragment.signedin.SignedInFragment"
         android:label="fragment_signed_in"
         tools:layout="@layout/fragment_signed_in" >
         <action
@@ -28,7 +28,7 @@
     </fragment>
     <fragment
         android:id="@+id/signedOutFragment"
-        android:name="com.example.ui8.fragment.signedout.SignedOutFragment"
+        android:name="com.example.ui8.presentation.fragment.signedout.SignedOutFragment"
         android:label="fragment_signed_out"
         tools:layout="@layout/fragment_signed_out" >
         <action
@@ -40,7 +40,7 @@
     </fragment>
     <fragment
         android:id="@+id/onBoardFragment"
-        android:name="com.example.ui8.fragment.onboard.OnBoardFragment"
+        android:name="com.example.ui8.presentation.fragment.onboard.OnBoardFragment"
         android:label="fragment_on_board"
         tools:layout="@layout/fragment_on_board" >
         <action
@@ -49,12 +49,12 @@
     </fragment>
     <fragment
         android:id="@+id/mainPageFragment"
-        android:name="com.example.ui8.fragment.mainpage.MainPageFragment"
+        android:name="com.example.ui8.presentation.fragment.mainpage.MainPageFragment"
         android:label="fragment_main_page"
         tools:layout="@layout/fragment_main_page" />
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.example.ui8.fragment.login.LoginFragment"
+        android:name="com.example.ui8.presentation.fragment.login.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" >
         <action
@@ -63,7 +63,7 @@
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
-        android:name="com.example.ui8.fragment.register.RegisterFragment"
+        android:name="com.example.ui8.presentation.fragment.register.RegisterFragment"
         android:label="fragment_register"
         tools:layout="@layout/fragment_register" />
 </navigation>

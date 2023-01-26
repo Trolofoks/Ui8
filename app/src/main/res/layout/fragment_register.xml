@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragment.register.RegisterFragment">
+    tools:context=".presentation.fragment.register.RegisterFragment">
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/outlinedTextFieldName"
@@ -55,6 +55,7 @@
             android:id="@+id/textImputEditEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:inputType="textEmailAddress"
             android:textColor="@color/text_primary"
             android:textColorHint="@color/text_secondary" />
 
@@ -82,6 +83,38 @@
             android:id="@+id/textImputEditNumber"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:inputType="number|phone"
+            android:textColor="@color/text_primary"
+            android:textColorHint="@color/text_secondary" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/outlinedTextFieldPassword"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:hint="Password"
+        android:textColorHint="@color/text_secondary"
+        app:boxCornerRadiusBottomEnd="20dp"
+        app:boxCornerRadiusBottomStart="20dp"
+        app:boxCornerRadiusTopEnd="20dp"
+        app:boxCornerRadiusTopStart="20dp"
+        app:boxStrokeColor="@color/secondary"
+        app:endIconCheckable="true"
+        app:endIconMode="password_toggle"
+        app:endIconTint="@color/primary"
+        app:hintTextColor="@color/primary"
+        app:layout_constraintEnd_toEndOf="@+id/outlinedTextFieldNumber"
+        app:layout_constraintStart_toStartOf="@+id/outlinedTextFieldNumber"
+        app:layout_constraintTop_toBottomOf="@+id/outlinedTextFieldNumber">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/textImputEditPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
             android:textColor="@color/text_primary"
             android:textColorHint="@color/text_secondary" />
 
@@ -126,33 +159,4 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/outlinedTextFieldPassword"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:hint="Password"
-        android:textColorHint="@color/text_secondary"
-        app:boxCornerRadiusBottomEnd="20dp"
-        app:boxCornerRadiusBottomStart="20dp"
-        app:boxCornerRadiusTopEnd="20dp"
-        app:boxCornerRadiusTopStart="20dp"
-        app:boxStrokeColor="@color/secondary"
-        app:endIconCheckable="true"
-        app:endIconMode="password_toggle"
-        app:endIconTint="@color/primary"
-        app:hintTextColor="@color/primary"
-        app:layout_constraintEnd_toEndOf="@+id/outlinedTextFieldNumber"
-        app:layout_constraintStart_toStartOf="@+id/outlinedTextFieldNumber"
-        app:layout_constraintTop_toBottomOf="@+id/outlinedTextFieldNumber">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/textImputEditPassword"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/text_primary"
-            android:textColorHint="@color/text_secondary" />
-
-    </com.google.android.material.textfield.TextInputLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

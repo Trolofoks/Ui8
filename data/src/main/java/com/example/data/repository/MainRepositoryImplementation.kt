@@ -22,6 +22,6 @@ class MainRepositoryImplementation(private var mainInfoStorage: MainInfoStorage)
 
     override fun getMainInfo(): MainUserInfo {
         val userInfo = mainInfoStorage.get()
-        return MainUserInfo (seenOnBoard = userInfo.seenOnBoard, signed = userInfo.signedIn)
+        return MainUserInfo (seenOnBoard = userInfo.seenOnBoard, id = null)
     }
 }

@@ -1,11 +1,15 @@
 package com.example.data.repository
 
 import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Transformations
+import androidx.lifecycle.asLiveData
 import com.example.data.accountstorage.model.AccountModel
 import com.example.data.accountstorage.sqlite.AccountDataBase
 import com.example.domain.model.AccountMidModel
 import com.example.domain.repository.AccountRepository
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.Flow
 
 class AccountRepositoryImplementation(private val dataBase: AccountDataBase):AccountRepository {
     override fun addAccount(account: AccountMidModel) {
@@ -21,44 +25,18 @@ class AccountRepositoryImplementation(private val dataBase: AccountDataBase):Acc
         }.start()
     }
 
-    override fun getAllAccounts(): List<AccountMidModel> {
-        val listFlow = dataBase.getDao().getAllAccounts()
-        val accountMidModelArrayList = arrayListOf<AccountMidModel>()
-        Log.d("MyLog","start")
-
-        listFlow.onEach { list ->
-            Log.d("MyLog","listflow")
-
-            list.forEach {
-                Log.d("MyLog","list")
-
-                accountMidModelArrayList.add(
-                    AccountMidModel(
-                        name = it.name,
-                        email = it.email,
-                        number = it.number,
-                        password = it.password
-                    )
+    override fun getAllAccounts(): Flow<List<AccountMidModel>> {
+        //если это не список из элементов а один элемент тогда надо один .map
+        val flowList = dataBase.getDao().getAllAccounts().map() { accDaoList ->
+            accDaoList.map {
+                AccountMidModel(
+                    name = it.name,
+                    email = it.email,
+                    number = it.number,
+                    password = it.password
                 )
-                Log.d("MyLog","added")
             }
-            Log.d("MyLog","$accountMidModelArrayList")
         }
-        Log.d("MyLog","$accountMidModelArrayList")
-        return accountMidModelArrayList.toList()
-
-//        dataBase.getDao().getAllAccounts().asLiveData().observe(this, Observer { list ->
-//            val accountMidArrayList = arrayListOf<AccountMidModel>()
-//            list.forEach {
-//                val account = AccountMidModel(
-//                    name = it.name,
-//                    email = it.email,
-//                    number = it.number,
-//                    password = it.password
-//                )
-//                accountMidArrayList.add(account)
-//            }
-//            return accountMidArrayList
-//        })
+        return flowList
     }
 }

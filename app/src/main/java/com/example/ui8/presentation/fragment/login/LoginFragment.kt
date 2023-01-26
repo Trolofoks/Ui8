@@ -16,7 +16,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        vm = ViewModelProvider(this, LoginViewModelFactory(requireContext().applicationContext))
+        vm = ViewModelProvider(this, LoginViewModelFactory(requireContext().applicationContext, viewLifecycleOwner))
             .get(LoginViewModel::class.java)
         vm.resultLiveList.observe(viewLifecycleOwner, Observer {
             Log.d("MyLog", "$it")

@@ -1,11 +1,8 @@
 package com.example.ui8.presentation.fragment.login
 
-import android.content.Context
 import androidx.lifecycle.*
 import com.example.domain.model.AccountMidModel
-import com.example.domain.usecase.AddAccountToDatabaseUseCase
 import com.example.domain.usecase.GetAllAccountsUseCase
-import com.example.domain.usecase.GetMainUserInfoUseCase
 
 class LoginViewModel(
     private val getAllAccountsUseCase: GetAllAccountsUseCase,
@@ -18,9 +15,8 @@ class LoginViewModel(
 
 
     fun getAllAccounts(){
-        val toLiveData = getAllAccountsUseCase.execute()
-        val getLiveData = toLiveData.asLiveData()
-        getLiveData.observe(viewLifecycleOwner, Observer {
+        val liveListOfAccounts = getAllAccountsUseCase.execute().asLiveData()
+        liveListOfAccounts.observe(viewLifecycleOwner, Observer {
             liveDataList.value = it
         })
     }

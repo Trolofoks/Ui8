@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.example.ui8.presentation.BaseFragment
 import com.example.ui8.databinding.FragmentRegisterBinding
 import com.example.data.accountstorage.sqlite.AccountDataBase
@@ -16,43 +18,54 @@ import com.example.domain.usecase.rules.EmailRulesDoneUseCase
 import com.example.domain.usecase.rules.NameRulesDoneUseCase
 import com.example.domain.usecase.rules.NumberRulesDoneUseCase
 import com.example.domain.usecase.rules.PasswordRulesDoneUseCase
+import com.example.ui8.presentation.fragment.signedout.SignedOutViewModelFactory
 
 class RegisterFragment : BaseFragment<FragmentRegisterBinding>(FragmentRegisterBinding::inflate) {
 
-    private val accountRepository by lazy {
-        AccountRepositoryImplementation(
-            AccountDataBase.getDataBase(
-                requireContext().applicationContext
-            )
-        )
-    }
-    private val addAccountToDatabaseUseCase by lazy { AddAccountToDatabaseUseCase(accountRepository) }
-    private val nameRulesDoneUseCase = NameRulesDoneUseCase()
-    private val emailRulesDoneUseCase = EmailRulesDoneUseCase()
-    private val numberRulesDoneUseCase = NumberRulesDoneUseCase()
-    private val passwordRulesDoneUseCase = PasswordRulesDoneUseCase()
+    private lateinit var vm : RegisterViewModel
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        vm = ViewModelProvider(this,
+        RegisterViewModelFactory(requireContext().applicationContext)
+        ).get(RegisterViewModel::class.java)
+
+        vm.resultLiveDataCorrectList.observe(viewLifecycleOwner, Observer {checkErrorList ->
+            if (checkErrorList[0]){
+
+            } else{
+                binding.textImputEditName.setText("")
+
+            }
+            if (checkErrorList[1]){
+
+            } else {
+                binding.textImputEditEmail.setText("")
+
+            }
+            if (checkErrorList[2]){
+
+            } else {
+                binding.textImputEditNumber.setText("")
+
+            }
+            if (checkErrorList[3]){
+
+            } else {
+                binding.textImputEditPassword.setText("")
+
+            }
+        })
 
         binding.buttonRegister.setOnClickListener {
-            val account = AccountMidModel(
-                name = binding.textImputEditName.text.toString(),
-                email = binding.textImputEditEmail.text.toString(),
-                number = binding.textImputEditNumber.text.toString(),
-                password = binding.textImputEditPassword.text.toString()
+            val accList = listOf<String>(
+                binding.textImputEditName.text.toString(),
+                binding.textImputEditEmail.text.toString(),
+                binding.textImputEditNumber.text.toString(),
+                binding.textImputEditPassword.text.toString()
             )
-            val get = addAccountToDatabaseUseCase.execute(account)
-            Toast.makeText(requireContext(), "${get}", Toast.LENGTH_SHORT).show()
-
-            val name = nameRulesDoneUseCase.execute(binding.textImputEditName.text.toString())
-            val email = emailRulesDoneUseCase.execute(binding.textImputEditEmail.text.toString())
-            val number = numberRulesDoneUseCase.execute(binding.textImputEditNumber.text.toString())
-            val password = passwordRulesDoneUseCase.execute(binding.textImputEditPassword.text.toString())
-
-            Log.d("MyLog","${name} ${email} ${number} ${password}")
-
+            vm.addAccount(accList)
         }
     }
 }

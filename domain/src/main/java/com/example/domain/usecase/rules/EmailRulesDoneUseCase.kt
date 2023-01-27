@@ -10,7 +10,7 @@ class EmailRulesDoneUseCase {
                     if (listOfParts[1].contains(".")){
                         val secondCheck = listOfParts[1].split(".")
                         if (secondCheck[0].length > 2 && secondCheck[1].length > 1){
-                            result = email
+                            result = email.lowercase()
                         }
                     }
                 }

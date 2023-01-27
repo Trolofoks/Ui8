@@ -5,14 +5,16 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.asLiveData
 import com.example.data.accountstorage.model.AccountModel
+import com.example.data.accountstorage.model.UserIdModel
 import com.example.data.accountstorage.sqlite.AccountDataBase
 import com.example.domain.model.AccountMidModel
+import com.example.domain.model.IdModel
 import com.example.domain.repository.AccountRepository
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.Flow
 
 class AccountRepositoryImplementation(private val dataBase: AccountDataBase):AccountRepository {
-    override fun addAccount(account: AccountMidModel) {
+    override fun addAccount(account: AccountMidModel): IdModel {
         val saveAccount = AccountModel(
             id = null,
             name = account.name,
@@ -23,6 +25,7 @@ class AccountRepositoryImplementation(private val dataBase: AccountDataBase):Acc
         Thread {
             dataBase.getDao().insertAccount(saveAccount)
         }.start()
+        return IdModel()
     }
 
     override fun getAllAccounts(): Flow<List<AccountMidModel>> {

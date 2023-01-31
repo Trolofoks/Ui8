@@ -5,27 +5,41 @@ import android.util.Log
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
+import com.example.domain.model.NumberAndPassModel
 import com.example.ui8.presentation.BaseFragment
 import com.example.ui8.R
 import com.example.ui8.databinding.FragmentLoginBinding
 
 class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::inflate){
     private lateinit var vm: LoginViewModel
+    private lateinit var controller: NavController
     var visible = false
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        vm = ViewModelProvider(this, LoginViewModelFactory(requireContext().applicationContext, viewLifecycleOwner))
+        controller = findNavController()
+        vm = ViewModelProvider(this, LoginViewModelFactory(requireContext().applicationContext))
             .get(LoginViewModel::class.java)
+
         vm.resultLiveList.observe(viewLifecycleOwner, Observer {
-            Log.d("MyLog", "$it")
+            binding.apply {
+                if (it){
+                    controller.navigate(R.id.mainPageFragment)
+                } else {
+                    outlinedTextFieldPassword.helperText = getString(R.string.wrong_login_data)
+                }
+            }
         })
         binding.buttonLogin.setOnClickListener {
-            vm.getAllAccounts()
+            vm.getAccountByNameAndPass(nameAndPass = NumberAndPassModel(
+                number = binding.textImputEditNumber.text.toString(),
+                password = binding.textImputEditPassword.text.toString()
+            ))
         }
-        binding.textButtonSingUp.setOnClickListener {
-            findNavController().navigate(R.id.registerFragment)
+        binding.linearSingUp.setOnClickListener {
+            controller.navigate(R.id.registerFragment)
         }
 
     }

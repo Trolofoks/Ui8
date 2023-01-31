@@ -1,5 +1,6 @@
 package com.example.ui8.presentation.fragment.root
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -13,8 +14,13 @@ class RootViewModel(
 
     fun get(){
         val userInfo = getMainUserInfoUseCase.execute()
-        if (userInfo.id == null){
+        if (userInfo.id.isEmpty()){
             liveData.value = false
+            Log.d("MyLog", "not kekw")
+        } else {
+            //TODO как сделаешь основной экран то измени на true
+            liveData.value = true
+            Log.d("MyLog", "${userInfo.id}")
         }
     }
 }

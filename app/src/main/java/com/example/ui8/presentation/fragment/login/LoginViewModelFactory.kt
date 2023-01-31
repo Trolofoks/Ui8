@@ -6,14 +6,23 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.data.accountstorage.sqlite.AccountDataBase
 import com.example.data.repository.AccountRepositoryImplementation
-import com.example.domain.usecase.AddAccountToDatabaseUseCase
+import com.example.data.repository.MainRepositoryImplementation
+import com.example.data.storage.sharedPref.SharedPrefMainInfoStorage
 import com.example.domain.usecase.GetAllAccountsUseCase
+import com.example.domain.usecase.GetIdByNumberAndPasswordUseCase
+import com.example.domain.usecase.SaveSignedUseCase
 
 class LoginViewModelFactory(
     private val context: Context,
-    private val viewLifecycleOwner: LifecycleOwner
     ) : ViewModelProvider.Factory {
 
+    private val mainRepository by lazy {
+        MainRepositoryImplementation(
+            mainInfoStorage = SharedPrefMainInfoStorage(
+                context = context
+            )
+        )
+    }
 
     private val accountRepository by lazy {
         AccountRepositoryImplementation(
@@ -22,10 +31,13 @@ class LoginViewModelFactory(
             )
         )
     }
-    private val getAllAccountsUseCase by lazy { GetAllAccountsUseCase(accountRepository) }
-
+    private val getIdByNumberAndPasswordUseCase by lazy { GetIdByNumberAndPasswordUseCase(accountRepository) }
+    private val saveSignedUseCase by lazy { SaveSignedUseCase(mainRepository) }
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return LoginViewModel(getAllAccountsUseCase, viewLifecycleOwner) as T
+        return LoginViewModel(
+            getIdByNumberAndPasswordUseCase,
+            saveSignedUseCase
+        ) as T
     }
 }

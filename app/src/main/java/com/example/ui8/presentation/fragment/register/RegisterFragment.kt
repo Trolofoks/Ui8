@@ -18,6 +18,7 @@ import com.example.domain.usecase.rules.EmailRulesDoneUseCase
 import com.example.domain.usecase.rules.NameRulesDoneUseCase
 import com.example.domain.usecase.rules.NumberRulesDoneUseCase
 import com.example.domain.usecase.rules.PasswordRulesDoneUseCase
+import com.example.ui8.R
 import com.example.ui8.presentation.fragment.signedout.SignedOutViewModelFactory
 
 class RegisterFragment : BaseFragment<FragmentRegisterBinding>(FragmentRegisterBinding::inflate) {
@@ -32,30 +33,33 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(FragmentRegisterB
         ).get(RegisterViewModel::class.java)
 
         vm.resultLiveDataCorrectList.observe(viewLifecycleOwner, Observer {checkErrorList ->
-            if (checkErrorList[0]){
-
-            } else{
-                binding.textImputEditName.setText("")
-
+            binding.apply {
+                if (checkErrorList[0]){
+                    outlinedTextFieldName.helperText = null
+                } else{
+                    binding.textImputEditName.setText("")
+                    outlinedTextFieldName.helperText = getString(R.string.reg_name_error)
+                }
+                if (checkErrorList[1]){
+                    outlinedTextFieldEmail.helperText = null
+                } else {
+                    binding.textImputEditEmail.setText("")
+                    outlinedTextFieldEmail.helperText = getString(R.string.reg_email_error)
+                }
+                if (checkErrorList[2]){
+                    outlinedTextFieldNumber.helperText = null
+                } else {
+                    binding.textImputEditNumber.setText("")
+                    outlinedTextFieldNumber.helperText = getString(R.string.reg_number_error)
+                }
+                if (checkErrorList[3]){
+                    outlinedTextFieldPassword.helperText = null
+                } else {
+                    binding.textImputEditPassword.setText("")
+                    outlinedTextFieldPassword.helperText = getString(R.string.reg_password_error)
+                }
             }
-            if (checkErrorList[1]){
 
-            } else {
-                binding.textImputEditEmail.setText("")
-
-            }
-            if (checkErrorList[2]){
-
-            } else {
-                binding.textImputEditNumber.setText("")
-
-            }
-            if (checkErrorList[3]){
-
-            } else {
-                binding.textImputEditPassword.setText("")
-
-            }
         })
 
         binding.buttonRegister.setOnClickListener {

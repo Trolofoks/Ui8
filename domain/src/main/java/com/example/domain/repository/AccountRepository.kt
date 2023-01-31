@@ -1,10 +1,11 @@
 package com.example.domain.repository
 
 import com.example.domain.model.AccountMidModel
-import com.example.domain.model.IdModel
+import com.example.domain.model.NumberAndPassModel
 import kotlinx.coroutines.flow.Flow
 
 interface AccountRepository {
-    fun addAccount(account: AccountMidModel) : IdModel
+    suspend fun addAccount(account: AccountMidModel) : String
+    suspend fun getAccountByNameAndPassword(numberAndPassModel: NumberAndPassModel): Int?
     fun getAllAccounts(): Flow<List<AccountMidModel>>
 }

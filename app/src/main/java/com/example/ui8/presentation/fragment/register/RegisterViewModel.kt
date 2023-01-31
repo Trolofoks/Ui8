@@ -3,17 +3,21 @@ package com.example.ui8.presentation.fragment.register
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.domain.model.AccountMidModel
+import com.example.domain.model.UserSigned
 import com.example.domain.usecase.AddAccountToDatabaseUseCase
 import com.example.domain.usecase.GetAllAccountsUseCase
+import com.example.domain.usecase.SaveSignedUseCase
 import com.example.domain.usecase.rules.EmailRulesDoneUseCase
 import com.example.domain.usecase.rules.NameRulesDoneUseCase
 import com.example.domain.usecase.rules.NumberRulesDoneUseCase
 import com.example.domain.usecase.rules.PasswordRulesDoneUseCase
+import kotlinx.coroutines.launch
 
 class RegisterViewModel(
     private val addAccountToDatabaseUseCase: AddAccountToDatabaseUseCase,
-
+    private val saveSignedUseCase: SaveSignedUseCase
 ):ViewModel() {
     private val nameRulesDoneUseCase = NameRulesDoneUseCase()
     private val emailRulesDoneUseCase = EmailRulesDoneUseCase()
@@ -49,15 +53,19 @@ class RegisterViewModel(
         liveDataCorrectList.value = testArray.toList()
 
         if (test){
-            addAccountToDatabaseUseCase.execute(
-                AccountMidModel(
-                    name = name,
-                    email = email,
-                    number = number,
-                    password = password
-                )
+            val acc = AccountMidModel(
+                name = name,
+                email = email,
+                number = number,
+                password = password
             )
+            viewModelScope.launch {
+                val id = addAccountToDatabaseUseCase.execute(acc)
+                saveIdToSharedPref(id)
+            }
         }
-
+    }
+    private fun saveIdToSharedPref(id: String){
+        saveSignedUseCase.execute(UserSigned(id))
     }
 }

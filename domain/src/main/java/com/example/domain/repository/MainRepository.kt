@@ -6,7 +6,7 @@ import com.example.domain.model.UserSigned
 
 interface MainRepository {
     fun saveSeenOnBoard(seen: UserSeenOnBoard):Boolean
-    fun saveSigned(login: UserSigned): Boolean
+    fun saveUserId(id: UserSigned): Boolean
 
     fun getMainInfo() : MainUserInfo
 }

@@ -1,20 +1,17 @@
 package com.example.data.repository
 
-import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.Transformations
-import androidx.lifecycle.asLiveData
 import com.example.data.accountstorage.model.AccountModel
-import com.example.data.accountstorage.model.UserIdModel
 import com.example.data.accountstorage.sqlite.AccountDataBase
 import com.example.domain.model.AccountMidModel
-import com.example.domain.model.IdModel
+import com.example.domain.model.NumberAndPassModel
 import com.example.domain.repository.AccountRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.withContext
 
 class AccountRepositoryImplementation(private val dataBase: AccountDataBase):AccountRepository {
-    override fun addAccount(account: AccountMidModel): IdModel {
+    override suspend fun addAccount(account: AccountMidModel): String {
         val saveAccount = AccountModel(
             id = null,
             name = account.name,
@@ -22,10 +19,17 @@ class AccountRepositoryImplementation(private val dataBase: AccountDataBase):Acc
             number = account.number,
             password = account.password
         )
-        Thread {
-            dataBase.getDao().insertAccount(saveAccount)
-        }.start()
-        return IdModel()
+        return withContext(Dispatchers.IO){
+            dataBase.getDao().insertAccount(saveAccount).toString()
+        }
+    }
+
+    override suspend fun getAccountByNameAndPassword(numberAndPassModel: NumberAndPassModel): Int?{
+        val accountModel = (dataBase.getDao().getUserByNameAndPassword(
+            number = numberAndPassModel.number,
+            password = numberAndPassModel.password
+        ))
+        return accountModel?.id
     }
 
     override fun getAllAccounts(): Flow<List<AccountMidModel>> {

@@ -68,5 +68,22 @@
         android:id="@+id/registerFragment"
         android:name="com.example.ui8.presentation.fragment.register.RegisterFragment"
         android:label="fragment_register"
-        tools:layout="@layout/fragment_register" />
+        tools:layout="@layout/fragment_register" >
+        <action
+            android:id="@+id/action_registerFragment_to_numberCheckFragment"
+            app:destination="@id/numberCheckFragment" />
+        <action
+            android:id="@+id/action_registerFragment_to_numberCheckFragment2"
+            app:destination="@id/numberCheckFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/numberCheckFragment"
+        android:name="com.example.ui8.presentation.fragment.numbercheck.NumberCheckFragment"
+        android:label="fragment_number_check"
+        tools:layout="@layout/fragment_number_check" >
+        <argument android:name="AccountModelTransfer" />
+        <action
+            android:id="@+id/action_numberCheckFragment_to_mainPageFragment"
+            app:destination="@id/mainPageFragment" />
+    </fragment>
 </navigation>

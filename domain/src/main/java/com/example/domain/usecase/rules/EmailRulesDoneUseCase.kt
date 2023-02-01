@@ -1,5 +1,6 @@
 package com.example.domain.usecase.rules
 
+//TODO сделай проверку на то что такой email уже используется(да переписать надо будет много)
 class EmailRulesDoneUseCase {
     fun execute (email: String):String {
         var result = ""

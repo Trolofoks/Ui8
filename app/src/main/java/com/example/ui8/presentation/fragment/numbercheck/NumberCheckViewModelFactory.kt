@@ -1,4 +1,4 @@
-package com.example.ui8.presentation.fragment.register
+package com.example.ui8.presentation.fragment.numbercheck
 
 import android.content.Context
 import androidx.lifecycle.ViewModel
@@ -9,14 +9,10 @@ import com.example.data.repository.MainRepositoryImplementation
 import com.example.data.storage.sharedPref.SharedPrefMainInfoStorage
 import com.example.domain.usecase.AddAccountToDatabaseUseCase
 import com.example.domain.usecase.SaveSignedUseCase
-import com.example.domain.usecase.rules.EmailRulesDoneUseCase
-import com.example.domain.usecase.rules.NameRulesDoneUseCase
-import com.example.domain.usecase.rules.NumberRulesDoneUseCase
-import com.example.domain.usecase.rules.PasswordRulesDoneUseCase
 
-class RegisterViewModelFactory(
-    private val context: Context
-):ViewModelProvider.Factory {
+class NumberCheckViewModelFactory(
+    private var context: Context
+) : ViewModelProvider.Factory{
     private val accountRepository by lazy {
         AccountRepositoryImplementation(
             dataBase = AccountDataBase.getDataBase(
@@ -35,6 +31,6 @@ class RegisterViewModelFactory(
     private val saveSignedUseCase by lazy { SaveSignedUseCase(mainRepository) }
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return RegisterViewModel(addAccountToDatabaseUseCase, saveSignedUseCase) as T
+        return NumberCheckViewModel(addAccountToDatabaseUseCase, saveSignedUseCase) as T
     }
 }

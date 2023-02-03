@@ -1,28 +1,16 @@
 package com.example.ui8.presentation.fragment.register
 
 import android.os.Bundle
-import android.util.Log
+import android.view.MenuItem
 import android.view.View
-import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.example.ui8.presentation.BaseFragment
 import com.example.ui8.databinding.FragmentRegisterBinding
-import com.example.data.accountstorage.sqlite.AccountDataBase
-import com.example.data.accountstorage.model.AccountModel
-import com.example.data.repository.AccountRepositoryImplementation
-import com.example.domain.model.AccountMidModel
-import com.example.domain.repository.AccountRepository
-import com.example.domain.usecase.AddAccountToDatabaseUseCase
-import com.example.domain.usecase.rules.EmailRulesDoneUseCase
-import com.example.domain.usecase.rules.NameRulesDoneUseCase
-import com.example.domain.usecase.rules.NumberRulesDoneUseCase
-import com.example.domain.usecase.rules.PasswordRulesDoneUseCase
 import com.example.ui8.R
-import com.example.ui8.presentation.Constance
-import com.example.ui8.presentation.fragment.signedout.SignedOutViewModelFactory
+import com.example.domain.Constance
 
 class RegisterFragment : BaseFragment<FragmentRegisterBinding>(FragmentRegisterBinding::inflate) {
 
@@ -33,36 +21,23 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(FragmentRegisterB
         super.onViewCreated(view, savedInstanceState)
 
         controller = findNavController()
-        vm = RegisterViewModel()
 
+        vm = ViewModelProvider(
+            this,
+            RegisterViewModelFactory(requireContext().applicationContext)
+        ).get(RegisterViewModel::class.java)
+
+        binding.toolbar.setNavigationOnClickListener {
+            controller.navigateUp()
+        }
+        //[0]-name, [1]-email, [2]-number, [3]-password
         vm.resultLiveDataCorrectList.observe(viewLifecycleOwner, Observer {checkErrorList ->
             binding.apply {
-                if (checkErrorList[0]){
-                    outlinedTextFieldName.helperText = null
-                } else{
-                    binding.textImputEditName.setText("")
-                    outlinedTextFieldName.helperText = getString(R.string.reg_name_error)
-                }
-                if (checkErrorList[1]){
-                    outlinedTextFieldEmail.helperText = null
-                } else {
-                    binding.textImputEditEmail.setText("")
-                    outlinedTextFieldEmail.helperText = getString(R.string.reg_email_error)
-                }
-                if (checkErrorList[2]){
-                    outlinedTextFieldNumber.helperText = null
-                } else {
-                    binding.textImputEditNumber.setText("")
-                    outlinedTextFieldNumber.helperText = getString(R.string.reg_number_error)
-                }
-                if (checkErrorList[3]){
-                    outlinedTextFieldPassword.helperText = null
-                } else {
-                    binding.textImputEditPassword.setText("")
-                    outlinedTextFieldPassword.helperText = getString(R.string.reg_password_error)
-                }
+                outlinedTextFieldName.helperText = checkErrorList[0]
+                outlinedTextFieldEmail.helperText = checkErrorList[1]
+                outlinedTextFieldNumber.helperText = checkErrorList[2]
+                outlinedTextFieldPassword.helperText = checkErrorList[3]
             }
-
         })
 
         vm.resultToSaveAccountLiveData.observe(viewLifecycleOwner,Observer{
@@ -72,13 +47,22 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(FragmentRegisterB
         })
 
         binding.buttonRegister.setOnClickListener {
-            val accList = listOf<String>(
+            val accList = arrayOf<String>(
                 binding.textImputEditName.text.toString(),
                 binding.textImputEditEmail.text.toString(),
                 binding.textImputEditNumber.text.toString(),
                 binding.textImputEditPassword.text.toString()
             )
             vm.addAccount(accList)
+        }
+    }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            android.R.id.home -> {
+                controller.navigateUp()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
         }
     }
 }

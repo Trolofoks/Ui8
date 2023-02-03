@@ -51,7 +51,11 @@
         android:id="@+id/mainPageFragment"
         android:name="com.example.ui8.presentation.fragment.mainpage.MainPageFragment"
         android:label="fragment_main_page"
-        tools:layout="@layout/fragment_main_page" />
+        tools:layout="@layout/fragment_main_page" >
+        <action
+            android:id="@+id/action_mainPageFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.example.ui8.presentation.fragment.login.LoginFragment"

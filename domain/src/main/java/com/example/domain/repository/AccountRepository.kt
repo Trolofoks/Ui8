@@ -8,4 +8,6 @@ interface AccountRepository {
     suspend fun addAccount(account: AccountMidModel) : String
     suspend fun getAccountByNameAndPassword(numberAndPassModel: NumberAndPassModel): Int?
     fun getAllAccounts(): Flow<List<AccountMidModel>>
+    suspend fun checkIfUserExists(name: String, email: String, number: String): Boolean
+    suspend fun getAccountById(id: Int): AccountMidModel
 }

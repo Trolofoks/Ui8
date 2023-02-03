@@ -25,14 +25,14 @@ class NumberCheckViewModel(
             viewModelScope.launch {
                 val id = addAccountToDatabaseUseCase.execute(account)
                 saveIdToSharedPref(id)
-                Log.d("MyLog", "save")
+                Log.d("MyLog", "save $id")
             }
-            digitsIsCorrectLive.value = true
         } else {
             digitsIsCorrectLive.value = false
         }
     }
     private fun saveIdToSharedPref(id: String){
         saveSignedUseCase.execute(UserSigned(id))
+        digitsIsCorrectLive.value = true
     }
 }

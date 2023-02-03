@@ -24,6 +24,16 @@ class AccountRepositoryImplementation(private val dataBase: AccountDataBase):Acc
         }
     }
 
+    override suspend fun getAccountById(id: Int): AccountMidModel{
+        val account = dataBase.getDao().getUserById(id)
+        return AccountMidModel(
+            name = account.name,
+            email = account.email,
+            number = account.number,
+            password = account.password
+        )
+    }
+
     override suspend fun getAccountByNameAndPassword(numberAndPassModel: NumberAndPassModel): Int?{
         val accountModel = (dataBase.getDao().getUserByNameAndPassword(
             number = numberAndPassModel.number,
@@ -32,6 +42,7 @@ class AccountRepositoryImplementation(private val dataBase: AccountDataBase):Acc
         return accountModel?.id
     }
 
+    //без корутин
     override fun getAllAccounts(): Flow<List<AccountMidModel>> {
         //если это не список из элементов а один элемент тогда надо один .map
         val flowList = dataBase.getDao().getAllAccounts().map() { accDaoList ->
@@ -45,5 +56,8 @@ class AccountRepositoryImplementation(private val dataBase: AccountDataBase):Acc
             }
         }
         return flowList
+    }
+    override suspend fun checkIfUserExists(name: String, email: String, number: String): Boolean {
+        return dataBase.getDao().getUserCount(name, email, number) > 0
     }
 }

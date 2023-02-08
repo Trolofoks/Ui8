@@ -11,17 +11,15 @@ import com.example.domain.model.NumberAndPassModel
 import com.example.ui8.presentation.BaseFragment
 import com.example.ui8.R
 import com.example.ui8.databinding.FragmentLoginBinding
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::inflate){
-    private lateinit var vm: LoginViewModel
+    private val vm by viewModel<LoginViewModel>()
     private lateinit var controller: NavController
-    var visible = false
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         controller = findNavController()
-        vm = ViewModelProvider(this, LoginViewModelFactory(requireContext().applicationContext))
-            .get(LoginViewModel::class.java)
 
         vm.resultLiveList.observe(viewLifecycleOwner, Observer {
             binding.apply {

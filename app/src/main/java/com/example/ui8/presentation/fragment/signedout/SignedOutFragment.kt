@@ -9,17 +9,17 @@ import androidx.navigation.fragment.findNavController
 import com.example.ui8.presentation.BaseFragment
 import com.example.ui8.R
 import com.example.ui8.databinding.FragmentSignedOutBinding
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SignedOutFragment : BaseFragment<FragmentSignedOutBinding>(FragmentSignedOutBinding::inflate) {
-    private lateinit var vm: SignedOutViewModel
+    private val vm by viewModel<SignedOutViewModel>()
     private lateinit var controller: NavController
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        vm = ViewModelProvider(this,
-            SignedOutViewModelFactory(requireContext().applicationContext)
-        ).get(SignedOutViewModel::class.java)
+
+
         controller = findNavController()
         //OnBoard
         vm.resultLive.observe(viewLifecycleOwner, Observer { seenOnBoard ->

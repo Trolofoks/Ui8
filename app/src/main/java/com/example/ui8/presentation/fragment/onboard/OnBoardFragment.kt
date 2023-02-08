@@ -14,10 +14,11 @@ import com.example.ui8.databinding.FragmentOnBoardBinding
 import com.example.ui8.presentation.fragment.onboard.item.Item1Fragment
 import com.example.ui8.presentation.fragment.onboard.item.Item2Fragment
 import com.example.ui8.presentation.fragment.onboard.item.Item3Fragment
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class OnBoardFragment : BaseFragment<FragmentOnBoardBinding>(FragmentOnBoardBinding::inflate) {
 
-    private lateinit var vm: OnBoardViewModel
+    private val vm by viewModel<OnBoardViewModel>()
     private val fragmentList = listOf<Fragment>(
         Item1Fragment.newInstance(),
         Item2Fragment.newInstance(),
@@ -30,8 +31,6 @@ class OnBoardFragment : BaseFragment<FragmentOnBoardBinding>(FragmentOnBoardBind
         super.onViewCreated(view, savedInstanceState)
         controller = findNavController()
 
-        vm = ViewModelProvider(this, OnBoardViewModelFactory(requireContext().applicationContext))
-            .get(OnBoardViewModel::class.java)
 
         vm.resultLivePos.observe(viewLifecycleOwner, Observer{ pos->
             binding.viewPager.currentItem = pos

@@ -10,18 +10,16 @@ import androidx.navigation.fragment.findNavController
 import com.example.ui8.R
 import com.example.ui8.presentation.BaseFragment
 import com.example.ui8.databinding.FragmentMainPageBinding
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainPageFragment : BaseFragment<FragmentMainPageBinding>(FragmentMainPageBinding::inflate) {
     private lateinit var controller: NavController
-    private lateinit var vm: MainPageViewModel
+    private val vm by viewModel<MainPageViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         controller = findNavController()
-        vm = ViewModelProvider(
-            this,
-            MainPageViewModelFactory(requireContext().applicationContext))
-            .get(MainPageViewModel::class.java)
+
 
         vm.returnAccountLiveData.observe(viewLifecycleOwner, Observer { account->
             binding.apply {

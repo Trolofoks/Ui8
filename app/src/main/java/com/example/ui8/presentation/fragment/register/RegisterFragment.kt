@@ -11,21 +11,18 @@ import com.example.ui8.presentation.BaseFragment
 import com.example.ui8.databinding.FragmentRegisterBinding
 import com.example.ui8.R
 import com.example.domain.Constance
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class RegisterFragment : BaseFragment<FragmentRegisterBinding>(FragmentRegisterBinding::inflate) {
 
     private lateinit var controller: NavController
-    private lateinit var vm : RegisterViewModel
+    private val vm by viewModel<RegisterViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         controller = findNavController()
 
-        vm = ViewModelProvider(
-            this,
-            RegisterViewModelFactory(requireContext().applicationContext)
-        ).get(RegisterViewModel::class.java)
 
         binding.toolbar.setNavigationOnClickListener {
             controller.navigateUp()

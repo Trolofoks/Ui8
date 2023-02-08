@@ -15,20 +15,17 @@ import com.example.ui8.databinding.FragmentNumberCheckBinding
 import com.example.ui8.presentation.BaseFragment
 import com.example.domain.Constance
 import com.example.ui8.presentation.SimpleTextWatcher
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class NumberCheckFragment : BaseFragment<FragmentNumberCheckBinding>(FragmentNumberCheckBinding::inflate) {
     private lateinit var controller: NavController
-    private lateinit var vm: NumberCheckViewModel
+    private val vm by viewModel<NumberCheckViewModel>()
     private lateinit var data: AccountMidModel
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         controller = findNavController()
 
-        vm = ViewModelProvider(
-            this,
-            NumberCheckViewModelFactory(requireContext().applicationContext)
-        ).get(NumberCheckViewModel::class.java)
 
         //можно сделать проверку, можно юзать deprecated делай что хочеш
         data = arguments?.getSerializable(Constance.TRANSFER_DATA_TO_NUMBER) as AccountMidModel

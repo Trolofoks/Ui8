@@ -9,17 +9,15 @@ import androidx.navigation.fragment.findNavController
 import com.example.ui8.presentation.BaseFragment
 import com.example.ui8.R
 import com.example.ui8.databinding.FragmentRootBinding
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class RootFragment : BaseFragment<FragmentRootBinding>(FragmentRootBinding::inflate) {
-    private lateinit var vm: RootViewModel
+    private val vm by viewModel<RootViewModel>()
     private lateinit var controller: NavController
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        vm = ViewModelProvider(
-            this,
-            RootViewModelFactory(requireContext().applicationContext)
-        ).get(RootViewModel::class.java)
+
         controller = findNavController()
         //проверка на регистрацию
         vm.resultLive.observe(viewLifecycleOwner, Observer{ signed->

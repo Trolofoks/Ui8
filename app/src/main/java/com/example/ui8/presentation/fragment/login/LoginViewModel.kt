@@ -7,10 +7,7 @@ import com.example.domain.model.NumberAndPassModel
 import com.example.domain.model.UserSigned
 import com.example.domain.usecase.GetIdByNumberAndPasswordUseCase
 import com.example.domain.usecase.SaveSignedUseCase
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharedFlow
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 
@@ -19,25 +16,31 @@ class LoginViewModel(
     private val saveSignedUseCase: SaveSignedUseCase
 ) : ViewModel() {
 
-    private val _correctFlow = MutableStateFlow<Boolean?>()
-    val correctFlow : SharedFlow<Boolean?> = _correctFlow
+    private val _correctFlow = MutableSharedFlow<Boolean>(replay = 1)
+    val correctFlow : SharedFlow<Boolean> = _correctFlow.asSharedFlow()
 
 
     fun getAccountByNameAndPass(nameAndPass: NumberAndPassModel){
+        Log.d("MyLog", "viewModel.getaccount")
         viewModelScope.launch {
-            val id = getIdByNumberAndPasswordUseCase.execute(nameAndPass)
+            var number = nameAndPass.number
+            if (number.length in 10..14) {
+                number = number.substring(number.length -10 , number.length)
+            }
+            val id = getIdByNumberAndPasswordUseCase.execute(NumberAndPassModel(
+                number = number,
+                password = nameAndPass.password
+            ))
             getResult(id)
         }
     }
     private fun getResult(id: IdModel){
         if (id.id.isNotEmpty()){
-            TODO("переписать на shared")
-            _correctFlow.value = true
+            _correctFlow.tryEmit(value = true)
             saveSignedUseCase.execute(UserSigned(id.id))
-            Log.d("MyLogTest","$id")
         } else {
             viewModelScope.launch {
-                _correctFlow.emit(false)
+                _correctFlow.tryEmit(value = false)
             }
         }
     }

@@ -1,6 +1,7 @@
 package com.example.ui8.presentation.fragment.login
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
@@ -21,23 +22,20 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
         super.onViewCreated(view, savedInstanceState)
         controller = findNavController()
 
-
         lifecycleScope.launchWhenCreated {
-            vm.correctFlow.collect() {correct ->
-                if (correct != null){
-                    binding.apply {
-                        if (correct){
-                            controller.navigate(R.id.mainPageFragment)
-                        } else {
-                            outlinedTextFieldPassword.helperText = getString(R.string.wrong_login_data)
-                        }
+            vm.correctFlow.collect(){correct ->
+                binding.apply {
+                    if (correct){
+                        controller.navigate(R.id.mainPageFragment)
+                    } else {
+                        outlinedTextFieldPassword.helperText = getString(R.string.wrong_login_data)
                     }
                 }
-
             }
         }
 
         binding.buttonLogin.setOnClickListener {
+            Log.d("MyLog","vm.getAccount")
             vm.getAccountByNameAndPass(nameAndPass = NumberAndPassModel(
                 number = binding.textImputEditNumber.text.toString(),
                 password = binding.textImputEditPassword.text.toString()

@@ -1,18 +1,20 @@
 package com.example.ui8.presentation.fragment.signedout
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.domain.usecase.GetMainUserInfoUseCase
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 
 class SignedOutViewModel(
     private val getMainUserInfoUseCase: GetMainUserInfoUseCase
 ): ViewModel() {
-    private val liveData = MutableLiveData<Boolean>()
-    val resultLive: LiveData<Boolean> = liveData
+
+    private val _seenOnBoard = MutableSharedFlow<Boolean>()
+    val seenOnBoard: SharedFlow<Boolean> = _seenOnBoard.asSharedFlow()
 
     fun get(){
         val userOnBoard = getMainUserInfoUseCase.execute()
-        liveData.value = userOnBoard.seenOnBoard
+        _seenOnBoard.tryEmit(userOnBoard.seenOnBoard)
     }
 }

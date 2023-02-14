@@ -1,12 +1,10 @@
 package com.example.ui8.presentation.fragment.numbercheck
 
-import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.example.domain.model.AccountMidModel
@@ -30,14 +28,15 @@ class NumberCheckFragment : BaseFragment<FragmentNumberCheckBinding>(FragmentNum
         //можно сделать проверку, можно юзать deprecated делай что хочеш
         data = arguments?.getSerializable(Constance.TRANSFER_DATA_TO_NUMBER) as AccountMidModel
 
-
-        vm.resultDigitsIsCorrectLive.observe(viewLifecycleOwner, Observer{ correct->
-            if (correct){
-                controller.navigate(R.id.mainPageFragment)
-            } else {
-                delete()
+        lifecycleScope.launchWhenCreated {
+            vm.correctDigitsFlow.collect(){correct ->
+                if (correct){
+                    controller.navigate(R.id.mainPageFragment)
+                } else {
+                    delete()
+                }
             }
-        })
+        }
 
         binding.apply {
             box1.addTextChangedListener(object : SimpleTextWatcher() {

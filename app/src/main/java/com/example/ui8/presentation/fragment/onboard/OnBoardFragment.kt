@@ -31,10 +31,17 @@ class OnBoardFragment : BaseFragment<FragmentOnBoardBinding>(FragmentOnBoardBind
         super.onViewCreated(view, savedInstanceState)
         controller = findNavController()
 
+        lifecycleScope.launchWhenCreated {
+            vm.onBoardSaveFlow.collect(){ saved ->
+                if (saved) controller.navigate(R.id.loginFragment)
+            }
+        }
 
-        vm.resultLivePos.observe(viewLifecycleOwner, Observer{ pos->
-            binding.viewPager.currentItem = pos
-        })
+        lifecycleScope.launchWhenCreated {
+            vm.posFlow.collect(){ pos ->
+                binding.viewPager.currentItem
+            }
+        }
 
         binding.button.setOnClickListener {
             counterPos = binding.viewPager.currentItem

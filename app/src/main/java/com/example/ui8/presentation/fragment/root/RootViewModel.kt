@@ -1,26 +1,24 @@
 package com.example.ui8.presentation.fragment.root
 
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.domain.usecase.GetMainUserInfoUseCase
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 
 class RootViewModel(
     private val getMainUserInfoUseCase: GetMainUserInfoUseCase
 ): ViewModel() {
-    private val liveData = MutableLiveData<Boolean>()
-    val resultLive: LiveData<Boolean> = liveData
+    private val _signed = MutableSharedFlow<Boolean>(replay = 1)
+    val signed: SharedFlow<Boolean> = _signed.asSharedFlow()
 
     fun get(){
         val userInfo = getMainUserInfoUseCase.execute()
         if (userInfo.id.isEmpty()){
-            liveData.value = false
-            Log.d("MyLog", "not kekw")
+            _signed.tryEmit(false)
         } else {
-            //TODO как сделаешь основной экран то измени на true
-            liveData.value = true
-            Log.d("MyLog", "${userInfo.id}")
+            _signed.tryEmit(true)
         }
     }
 }

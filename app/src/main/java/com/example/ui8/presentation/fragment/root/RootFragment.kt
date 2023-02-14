@@ -3,7 +3,7 @@ package com.example.ui8.presentation.fragment.root
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.example.ui8.presentation.BaseFragment
@@ -17,16 +17,17 @@ class RootFragment : BaseFragment<FragmentRootBinding>(FragmentRootBinding::infl
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         controller = findNavController()
-        //проверка на регистрацию
-        vm.resultLive.observe(viewLifecycleOwner, Observer{ signed->
-            if (signed){
-                controller.navigate(R.id.signedInFragment)
-            } else {
-                controller.navigate(R.id.signedOutFragment)
+
+        lifecycleScope.launchWhenCreated {
+            vm.signed.collect(){signed ->
+                if (signed){
+                    controller.navigate(R.id.signedInFragment)
+                } else {
+                    controller.navigate(R.id.signedOutFragment)
+                }
             }
-        })
+        }
         vm.get()
     }
 }

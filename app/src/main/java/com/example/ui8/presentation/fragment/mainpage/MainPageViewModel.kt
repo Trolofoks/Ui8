@@ -10,6 +10,9 @@ import com.example.domain.model.UserSigned
 import com.example.domain.usecase.GetAccountByIdUseCase
 import com.example.domain.usecase.GetMainUserInfoUseCase
 import com.example.domain.usecase.LogOutUseCase
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 
 class MainPageViewModel(
@@ -17,11 +20,11 @@ class MainPageViewModel(
     private val logOutUseCase: LogOutUseCase,
     private val getMainUserInfoUseCase: GetMainUserInfoUseCase
 ): ViewModel() {
-    private val logOutLiveData = MutableLiveData<Boolean>()
-    val returnLogOutLiveData: LiveData<Boolean> = logOutLiveData
+    private val _logOutFlow = MutableSharedFlow<Boolean>(replay = 1)
+    val logOutFlow: SharedFlow<Boolean> = _logOutFlow.asSharedFlow()
 
-    private val accountLiveData = MutableLiveData<AccountMidModel>()
-    val returnAccountLiveData: LiveData<AccountMidModel> = accountLiveData
+    private val _accountDataFlow = MutableSharedFlow<AccountMidModel>()
+    val accountDataFlow: SharedFlow<AccountMidModel> = _accountDataFlow.asSharedFlow()
 
     fun getAccount(){
         val mainUserInfo = getMainUserInfoUseCase.execute()
@@ -31,10 +34,10 @@ class MainPageViewModel(
             accountGetter(account)
         }
     }
-    private fun accountGetter(accountMidModel: AccountMidModel){
-        accountLiveData.value = accountMidModel
+    private fun accountGetter(account: AccountMidModel){
+        _accountDataFlow.tryEmit(account)
     }
     fun logOut(){
-        logOutLiveData.value = logOutUseCase.execute()
+        _logOutFlow.tryEmit(logOutUseCase.execute())
     }
 }

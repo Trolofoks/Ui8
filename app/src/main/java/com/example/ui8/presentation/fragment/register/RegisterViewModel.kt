@@ -12,6 +12,9 @@ import com.example.domain.usecase.rules.NumberRulesDoneUseCase
 import com.example.domain.usecase.rules.PasswordRulesDoneUseCase
 import com.example.domain.Constance
 import com.example.ui8.R
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 
 class RegisterViewModel(
@@ -22,11 +25,11 @@ class RegisterViewModel(
 ):ViewModel() {
     private val passwordRulesDoneUseCase = PasswordRulesDoneUseCase()
 
-    private val liveDataCorrectList = MutableLiveData<Array<String?>>()
-    val resultLiveDataCorrectList: LiveData<Array<String?>> = liveDataCorrectList
+    private val _correctListFlow = MutableSharedFlow<Array<String?>>()
+    val correctListFlow: SharedFlow<Array<String?>> = _correctListFlow.asSharedFlow()
 
-    private val toSaveAccountLiveData = MutableLiveData<AccountMidModel>()
-    val resultToSaveAccountLiveData: LiveData<AccountMidModel> = toSaveAccountLiveData
+    private val _toSaveAccountFlow = MutableSharedFlow<AccountMidModel>()
+    val resultToSaveAccountLiveData: SharedFlow<AccountMidModel> = _toSaveAccountFlow.asSharedFlow()
 
     //[0]-name [1]-email, [2]-number, [3]-password
     fun addAccount(userData: Array<String>) {
@@ -70,7 +73,7 @@ class RegisterViewModel(
                         }
                     }
                 }
-                liveDataCorrectList.value = helperTextErrorArray
+                _correctListFlow.tryEmit(helperTextErrorArray)
             } else {
                 val acc = AccountMidModel(
                     name = userData[0],
@@ -78,7 +81,7 @@ class RegisterViewModel(
                     number = userData[2],
                     password = userData[3]
                 )
-                toSaveAccountLiveData.value = acc
+                _toSaveAccountFlow.tryEmit(acc)
             }
         }
     }
